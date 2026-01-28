@@ -1,0 +1,57 @@
+<aside class="sidebar">
+  <nav class="sidebar-nav">
+    <ul class="sidebar-menu">
+      <li
+        *ngFor="let item of sidebarItems"
+        class="sidebar-item"
+        [class.active]="isActive(item)"
+        [class.expanded]="isExpanded(item)"
+        [class.has-children]="item.children && item.children.length > 0">
+
+        <!-- Item without children -->
+        <a
+          *ngIf="!item.children || item.children.length === 0"
+          class="sidebar-link"
+          [routerLink]="item.relativeURL"
+          [title]="item.name">
+          <i [class]="item.icon"></i>
+          <span class="sidebar-label">{{ item.name }}</span>
+          <span class="notification-badge" *ngIf="item.notificationCount && item.notificationCount > 0">
+            {{ item.notificationCount > 99 ? '99+' : item.notificationCount }}
+          </span>
+        </a>
+
+        <!-- Item with children -->
+        <ng-container *ngIf="item.children && item.children.length > 0">
+          <a
+            class="sidebar-link"
+            (click)="toggleItem(item, $event)"
+            [title]="item.name">
+            <i [class]="item.icon"></i>
+            <span class="sidebar-label">{{ item.name }}</span>
+            <i class="expand-icon icon-chevron-down"></i>
+          </a>
+
+          <!-- Submenu -->
+          <ul class="sidebar-submenu" [@slideInOut]="isExpanded(item) ? 'expanded' : 'collapsed'">
+            <li
+              *ngFor="let child of item.children"
+              class="sidebar-subitem"
+              [class.active]="isActive(child)">
+              <a
+                class="sidebar-sublink"
+                [routerLink]="child.relativeURL"
+                [title]="child.name">
+                <i [class]="child.icon"></i>
+                <span>{{ child.name }}</span>
+                <span class="notification-badge" *ngIf="child.notificationCount && child.notificationCount > 0">
+                  {{ child.notificationCount > 99 ? '99+' : child.notificationCount }}
+                </span>
+              </a>
+            </li>
+          </ul>
+        </ng-container>
+      </li>
+    </ul>
+  </nav>
+</aside>

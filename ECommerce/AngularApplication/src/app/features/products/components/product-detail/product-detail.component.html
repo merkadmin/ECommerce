@@ -1,0 +1,221 @@
+<div class="product-detail-page" *ngIf="!isLoading && product">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb">
+    <a routerLink="/products">Products</a>
+    <span class="separator">/</span>
+    <a [routerLink]="['/categories', product.categoryId]">{{ product.categoryName }}</a>
+    <span class="separator">/</span>
+    <span class="current">{{ product.name }}</span>
+  </nav>
+
+  <!-- Product Header -->
+  <div class="product-header">
+    <!-- Product Image -->
+    <div class="product-image">
+      <img [src]="product.imageUrl" [alt]="product.name" />
+      <span class="status-badge" *ngIf="product.status !== 'Normal'" [class]="'badge-' + product.status.toLowerCase().replace(' ', '-')">
+        {{ product.status }}
+      </span>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="product-meta">
+        <span class="brand" *ngIf="product.brand">{{ product.brand }}</span>
+        <span class="sku">SKU: {{ product.sku }}</span>
+      </div>
+
+      <h1 class="product-name">{{ product.name }}</h1>
+
+      <p class="product-description">{{ product.description }}</p>
+
+      <!-- Price Summary -->
+      <div class="price-summary">
+        <div class="price-main">
+          <span class="label">Best Price</span>
+          <span class="price">{{ globalService.formatMoney(product.lowestPrice) }}</span>
+          <span class="retailer" *ngIf="lowestPriceRetailer">
+            at {{ lowestPriceRetailer.retailerName }}
+          </span>
+        </div>
+
+        <div class="price-range">
+          <div class="range-item">
+            <span class="label">Highest</span>
+            <span class="value">{{ globalService.formatMoney(product.highestPrice) }}</span>
+          </div>
+          <div class="range-item">
+            <span class="label">Average</span>
+            <span class="value">{{ globalService.formatMoney(product.averagePrice) }}</span>
+          </div>
+          <div class="range-item savings" *ngIf="savings > 0">
+            <span class="label">You Save</span>
+            <span class="value">{{ globalService.formatMoney(savings) }} ({{ savingsPercent }}%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="product-actions">
+        <button class="btn btn-primary" (click)="openRetailerLink(lowestPriceRetailer!)" *ngIf="lowestPriceRetailer">
+          <i class="icon-external-link"></i>
+          Buy at {{ lowestPriceRetailer.retailerName }}
+        </button>
+        <button class="btn btn-secondary" (click)="setAlert()">
+          <i class="icon-bell"></i>
+          Set Price Alert
+        </button>
+        <button class="btn btn-ghost" (click)="addToWishlist()">
+          <i class="icon-heart"></i>
+        </button>
+        <button class="btn btn-ghost" (click)="shareProduct()">
+          <i class="icon-share"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="product-tabs">
+    <div class="tabs-header">
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'prices'"
+        (click)="activeTab = 'prices'">
+        <i class="icon-compare"></i>
+        Price Comparison ({{ product.prices.length }})
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'history'"
+        (click)="activeTab = 'history'">
+        <i class="icon-chart"></i>
+        Price History
+      </button>
+      <button
+        class="tab-btn"
+        [class.active]="activeTab === 'specs'"
+        (click)="activeTab = 'specs'"
+        *ngIf="product.specifications?.length">
+        <i class="icon-list"></i>
+        Specifications
+      </button>
+    </div>
+
+    <div class="tabs-content">
+      <!-- Price Comparison Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 'prices'">
+        <div class="price-comparison-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Retailer</th>
+                <th>Price</th>
+                <th>Shipping</th>
+                <th>Availability</th>
+                <th>Rating</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let price of product.prices; let i = index" [class.best-price]="i === 0">
+                <td class="retailer-cell">
+                  <img [src]="price.retailerLogo" [alt]="price.retailerName" class="retailer-logo" />
+                  <span class="retailer-name">{{ price.retailerName }}</span>
+                  <span class="best-badge" *ngIf="i === 0">Best Price</span>
+                </td>
+                <td class="price-cell">
+                  <span class="current-price">{{ globalService.formatMoney(price.currentPrice) }}</span>
+                  <span class="original-price" *ngIf="price.originalPrice && price.originalPrice > price.currentPrice">
+                    {{ globalService.formatMoney(price.originalPrice) }}
+                  </span>
+                  <span class="discount" *ngIf="price.discountPercent">
+                    -{{ price.discountPercent }}%
+                  </span>
+                </td>
+                <td class="shipping-cell">
+                  <span *ngIf="price.shippingCost === 0" class="free-shipping">Free</span>
+                  <span *ngIf="price.shippingCost && price.shippingCost > 0">
+                    {{ globalService.formatMoney(price.shippingCost) }}
+                  </span>
+                  <span *ngIf="price.shippingCost === null" class="shipping-unknown">-</span>
+                </td>
+                <td class="availability-cell">
+                  <span class="availability" [class.in-stock]="price.isAvailable" [class.out-of-stock]="!price.isAvailable">
+                    {{ price.isAvailable ? 'In Stock' : 'Out of Stock' }}
+                  </span>
+                </td>
+                <td class="rating-cell">
+                  <div class="rating" *ngIf="price.rating">
+                    <i class="icon-star"></i>
+                    <span>{{ price.rating.toFixed(1) }}</span>
+                    <span class="review-count">({{ price.reviewCount }})</span>
+                  </div>
+                  <span *ngIf="!price.rating">-</span>
+                </td>
+                <td class="action-cell">
+                  <button
+                    class="btn btn-sm"
+                    [class.btn-primary]="i === 0"
+                    [class.btn-secondary]="i !== 0"
+                    [disabled]="!price.isAvailable"
+                    (click)="openRetailerLink(price)">
+                    <i class="icon-external-link"></i>
+                    View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Price History Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 'history'">
+        <div class="history-controls">
+          <span>Show last:</span>
+          <button
+            *ngFor="let days of [7, 30, 90, 180]"
+            class="history-btn"
+            [class.active]="historyDays === days"
+            (click)="onHistoryDaysChange(days)">
+            {{ days }} days
+          </button>
+        </div>
+
+        <app-price-chart
+          [priceHistory]="priceHistory"
+          [height]="400"
+          [showLegend]="true">
+        </app-price-chart>
+      </div>
+
+      <!-- Specifications Tab -->
+      <div class="tab-panel" *ngIf="activeTab === 'specs'">
+        <div class="specifications-table">
+          <table>
+            <tbody>
+              <tr *ngFor="let spec of product.specifications">
+                <th>{{ spec.name }}</th>
+                <td>{{ spec.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-state" *ngIf="isLoading">
+  <div class="skeleton-header">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-info">
+      <div class="skeleton-line short"></div>
+      <div class="skeleton-line long"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line long"></div>
+    </div>
+  </div>
+</div>

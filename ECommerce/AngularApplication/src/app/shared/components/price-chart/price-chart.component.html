@@ -1,0 +1,8 @@
+<div class="price-chart-container" [style.height.px]="height">
+  <canvas #chartCanvas *ngIf="priceHistory.length > 0"></canvas>
+
+  <div class="no-data" *ngIf="priceHistory.length === 0">
+    <i class="icon-chart"></i>
+    <p>No price history available</p>
+  </div>
+</div>

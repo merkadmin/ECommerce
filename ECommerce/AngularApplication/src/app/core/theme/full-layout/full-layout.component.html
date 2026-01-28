@@ -1,0 +1,31 @@
+<div class="app-layout" [class.no-sidebar]="!showSideBar">
+  <!-- Navbar -->
+  <app-navbar *ngIf="showNavBar"></app-navbar>
+
+  <!-- Sidebar -->
+  <app-sidebar *ngIf="showSideBar"></app-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.with-sidebar]="showSideBar" [class.with-navbar]="showNavBar">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" *ngIf="isLoading">
+      <div class="spinner">
+        <div class="spinner-ring"></div>
+        <span>Loading...</span>
+      </div>
+    </div>
+
+    <!-- Router Outlet -->
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer" *ngIf="fixedService.showFooter">
+    <div class="footer-content">
+      <span>&copy; 2024 PriceCompare. All rights reserved.</span>
+      <span class="footer-version">v1.0.0</span>
+    </div>
+  </footer>
+</div>

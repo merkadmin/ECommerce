@@ -1,0 +1,7 @@
+{
+  "apiBaseUrl": "http://localhost:5000/api",
+  "isProduction": false,
+  "enableAnalytics": false,
+  "defaultLanguage": "en",
+  "supportedLanguages": ["en", "ar"]
+}

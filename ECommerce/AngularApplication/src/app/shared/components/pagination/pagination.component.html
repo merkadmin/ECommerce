@@ -1,0 +1,86 @@
+<div class="pagination-container d-flex align-items-center justify-content-between">
+  <!-- Page info -->
+  <div class="pagination-info" *ngIf="showPageInfo && total > 0">
+    <span>Showing {{ pagination.from }} - {{ pagination.to }} of {{ pagination.total }}</span>
+  </div>
+
+  <!-- Page controls -->
+  <div class="pagination-controls d-flex align-items-center gap-2">
+    <!-- Page size selector -->
+    <div class="page-size-selector" *ngIf="showPageSizeSelector">
+      <select
+        class="form-select form-select-sm"
+        [value]="pagination.recordPerPage"
+        (change)="onPageSizeChange($event)">
+        <option *ngFor="let size of pageSizeOptions" [value]="size">
+          {{ size }} per page
+        </option>
+      </select>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="pagination-nav d-flex align-items-center gap-1">
+      <!-- First page -->
+      <button
+        class="btn btn-pagination"
+        [disabled]="pagination.currentPage === 1"
+        (click)="change('first')"
+        title="First page">
+        <i class="icon-chevrons-left"></i>
+      </button>
+
+      <!-- Previous page -->
+      <button
+        class="btn btn-pagination"
+        [disabled]="pagination.currentPage === 1"
+        (click)="change('previous')"
+        title="Previous page">
+        <i class="icon-chevron-left"></i>
+      </button>
+
+      <!-- Page numbers -->
+      <div class="page-numbers d-flex align-items-center gap-1">
+        <!-- First page indicator if not in list -->
+        <ng-container *ngIf="pagination.list[0] > 1">
+          <button class="btn btn-pagination" (click)="goToPage(1)">1</button>
+          <span class="pagination-ellipsis" *ngIf="pagination.list[0] > 2">...</span>
+        </ng-container>
+
+        <!-- Page number buttons -->
+        <button
+          *ngFor="let pageNum of pagination.list"
+          class="btn btn-pagination"
+          [class.active]="pageNum === pagination.currentPage"
+          (click)="goToPage(pageNum)">
+          {{ pageNum }}
+        </button>
+
+        <!-- Last page indicator if not in list -->
+        <ng-container *ngIf="pagination.list[pagination.list.length - 1] < pagination.lastPage">
+          <span class="pagination-ellipsis" *ngIf="pagination.list[pagination.list.length - 1] < pagination.lastPage - 1">...</span>
+          <button class="btn btn-pagination" (click)="goToPage(pagination.lastPage)">
+            {{ pagination.lastPage }}
+          </button>
+        </ng-container>
+      </div>
+
+      <!-- Next page -->
+      <button
+        class="btn btn-pagination"
+        [disabled]="pagination.currentPage === pagination.lastPage"
+        (click)="change('next')"
+        title="Next page">
+        <i class="icon-chevron-right"></i>
+      </button>
+
+      <!-- Last page -->
+      <button
+        class="btn btn-pagination"
+        [disabled]="pagination.currentPage === pagination.lastPage"
+        (click)="change('last')"
+        title="Last page">
+        <i class="icon-chevrons-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

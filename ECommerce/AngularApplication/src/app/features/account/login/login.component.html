@@ -1,0 +1,49 @@
+<div class="login-form">
+  <h2>Welcome Back</h2>
+  <p class="subtitle">Sign in to your account</p>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Enter your password"
+        required
+      />
+    </div>
+
+    <div class="form-options">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe" />
+        <span>Remember me</span>
+      </label>
+      <a routerLink="/forgot-password" class="forgot-link">Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+      <span *ngIf="!isLoading">Sign In</span>
+      <span *ngIf="isLoading">Signing in...</span>
+    </button>
+  </form>
+
+  <p class="register-link">
+    Don't have an account? <a routerLink="/register">Sign up</a>
+  </p>
+</div>

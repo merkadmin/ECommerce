@@ -1,0 +1,43 @@
+<div class="cr-input_container w-100 position-relative d-flex">
+  <!-- Input icon slot -->
+  <span class="cr-input_icon" *ngIf="hasInputIcon">
+    <ng-content select="[crInputIcon]"></ng-content>
+  </span>
+
+  <!-- Input field -->
+  <input
+    #crInput
+    [type]="type"
+    class="form-control cr-input_input {{ inputClass }}"
+    [ngClass]="{
+      'with-icon': hasInputIcon,
+      'is-invalid': isInvalid,
+      'with-clear': hasClearBtn && value
+    }"
+    [placeholder]="placeholder"
+    [(ngModel)]="value"
+    [disabled]="disabled"
+    [maxlength]="maxLength"
+    (ngModelChange)="onInputChange()"
+    (keypress)="onKeypress($event)"
+    (blur)="onBlur()"
+  />
+
+  <!-- Loading spinner or clear button -->
+  <div class="cr-input_actions">
+    <!-- Loading spinner -->
+    <span class="cr-input_spinner" *ngIf="loading">
+      <i class="icon-spinner animation-rotate"></i>
+    </span>
+
+    <!-- Clear button -->
+    <button
+      type="button"
+      class="cr-input_clear"
+      *ngIf="hasClearBtn && value && !loading"
+      (click)="clear()"
+      title="Clear">
+      <i class="icon-x"></i>
+    </button>
+  </div>
+</div>

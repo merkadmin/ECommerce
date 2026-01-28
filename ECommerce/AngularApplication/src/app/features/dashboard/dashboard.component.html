@@ -1,0 +1,133 @@
+<div class="dashboard-page">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Find the Best Prices</h1>
+      <p>Compare prices across multiple retailers and save money on your purchases</p>
+      <div class="hero-search">
+        <input type="text" placeholder="Search for products..." />
+        <button class="btn btn-primary" routerLink="/products">
+          <i class="icon-search"></i>
+          Search
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stat-card">
+      <i class="icon-box"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ globalService.formatNumber(stats.totalProducts) }}</span>
+        <span class="stat-label">Products</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="icon-store"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalRetailers }}</span>
+        <span class="stat-label">Retailers</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="icon-trending-down"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.priceDrops }}</span>
+        <span class="stat-label">Price Drops Today</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="icon-bell"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.activeAlerts }}</span>
+        <span class="stat-label">Active Alerts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trending Products -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2>
+        <i class="icon-trending"></i>
+        Trending Products
+      </h2>
+      <a routerLink="/products/trending" class="view-all">
+        View All
+        <i class="icon-chevron-right"></i>
+      </a>
+    </div>
+
+    <div class="products-grid" *ngIf="!isLoadingTrending">
+      <app-product-card
+        *ngFor="let product of trendingProducts"
+        [product]="product">
+      </app-product-card>
+    </div>
+
+    <div class="skeleton-grid" *ngIf="isLoadingTrending">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4]"></div>
+    </div>
+  </section>
+
+  <!-- Best Deals -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2>
+        <i class="icon-percent"></i>
+        Best Deals
+      </h2>
+      <a routerLink="/products/deals" class="view-all">
+        View All
+        <i class="icon-chevron-right"></i>
+      </a>
+    </div>
+
+    <div class="products-grid" *ngIf="!isLoadingDeals">
+      <app-product-card
+        *ngFor="let product of bestDeals"
+        [product]="product">
+      </app-product-card>
+    </div>
+
+    <div class="skeleton-grid" *ngIf="isLoadingDeals">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3,4]"></div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <h2>Why Use PriceCompare?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="icon-compare"></i>
+        </div>
+        <h3>Compare Prices</h3>
+        <p>See prices from multiple retailers side by side and find the best deal instantly</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="icon-bell"></i>
+        </div>
+        <h3>Price Alerts</h3>
+        <p>Set alerts and get notified when prices drop to your target price</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="icon-chart"></i>
+        </div>
+        <h3>Price History</h3>
+        <p>View historical price trends to know if it's the right time to buy</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="icon-heart"></i>
+        </div>
+        <h3>Wishlist</h3>
+        <p>Save products to your wishlist and track their prices over time</p>
+      </div>
+    </div>
+  </section>
+</div>

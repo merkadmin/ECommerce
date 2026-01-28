@@ -1,0 +1,85 @@
+<div class="product-card" (click)="onCardClick()">
+  <!-- Product Image -->
+  <div class="product-card_image">
+    <img [src]="product.imageUrl" [alt]="product.name" loading="lazy" />
+
+    <!-- Status Badge -->
+    <span class="product-card_badge" [ngClass]="statusBadgeClass" *ngIf="product.status !== 'Normal'">
+      {{ product.status }}
+    </span>
+
+    <!-- Discount Badge -->
+    <span class="product-card_discount" *ngIf="discountPercent">
+      -{{ discountPercent }}%
+    </span>
+
+    <!-- Quick Actions -->
+    <div class="product-card_actions">
+      <button
+        class="action-btn"
+        [class.active]="isInWishlist"
+        *ngIf="showWishlistButton"
+        (click)="onWishlistClick($event)"
+        [title]="isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'">
+        <i [class]="isInWishlist ? 'icon-heart-filled' : 'icon-heart'"></i>
+      </button>
+
+      <button
+        class="action-btn"
+        [class.active]="isInCompare"
+        *ngIf="showCompareButton"
+        (click)="onCompareClick($event)"
+        [title]="isInCompare ? 'Remove from Compare' : 'Add to Compare'">
+        <i class="icon-compare"></i>
+      </button>
+
+      <button
+        class="action-btn"
+        (click)="onAlertClick($event)"
+        title="Set Price Alert">
+        <i class="icon-bell"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-card_info">
+    <!-- Category & Brand -->
+    <div class="product-card_meta">
+      <span class="category">{{ product.categoryName }}</span>
+      <span class="brand" *ngIf="product.brand">{{ product.brand }}</span>
+    </div>
+
+    <!-- Name -->
+    <h3 class="product-card_name" [title]="product.name">
+      {{ product.name }}
+    </h3>
+
+    <!-- Pricing -->
+    <div class="product-card_pricing">
+      <div class="price-main">
+        <span class="lowest-price">{{ globalService.formatMoney(product.lowestPrice) }}</span>
+        <span class="price-label">lowest</span>
+      </div>
+
+      <div class="price-range" *ngIf="product.highestPrice > product.lowestPrice">
+        <span class="highest-price">{{ globalService.formatMoney(product.highestPrice) }}</span>
+        <span class="price-label">highest</span>
+      </div>
+    </div>
+
+    <!-- Retailers Count -->
+    <div class="product-card_retailers">
+      <i class="icon-store"></i>
+      <span>{{ product.retailerCount }} retailer{{ product.retailerCount > 1 ? 's' : '' }}</span>
+    </div>
+  </div>
+
+  <!-- Compare Button -->
+  <div class="product-card_footer">
+    <a [routerLink]="['/products', product.id]" class="btn-compare" (click)="$event.stopPropagation()">
+      <i class="icon-compare"></i>
+      Compare Prices
+    </a>
+  </div>
+</div>
