@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\EMR_AF\\EMR\\Dev\\MerkSolution\\PriceComparison\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{87746A4E-A54D-4F49-A0FC-8551BEA2F1C2}|PriceComparison.API\\PriceComparison.API.csproj|e:\\emr_af\\emr\\dev\\merksolution\\pricecomparison\\pricecomparison.api\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{87746A4E-A54D-4F49-A0FC-8551BEA2F1C2}|PriceComparison.API\\PriceComparison.API.csproj|solutionrelative:pricecomparison.api\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "E:\\EMR_AF\\EMR\\Dev\\MerkSolution\\PriceComparison\\PriceComparison.API\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "PriceComparison.API\\Controllers\\ProductsController.cs",
+              "ToolTip": "E:\\EMR_AF\\EMR\\Dev\\MerkSolution\\PriceComparison\\PriceComparison.API\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "PriceComparison.API\\Controllers\\ProductsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T07:01:03.846Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
